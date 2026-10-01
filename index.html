@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مفاجأة خاصة ❤️</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Cairo -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #1a001a, #4a0e2e, #1a001a);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: white;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+    .heart {
+      position: fixed;
+      color: rgba(244, 63, 94, 0.6);
+      animation: float 6s infinite ease-in-out;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.5) rotate(360deg); opacity: 0; }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-10px); }
+      40%, 80% { transform: translateX(10px); }
+    }
+    .shake { animation: shake 0.5s ease-in-out; }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 relative select-none">
+
+  <!-- خلفية القلوب المتناثرة -->
+  <div id="hearts-container"></div>
+
+  <!-- الشاشة الأولى: كلمة السر -->
+  <div id="screen-pass" class="glass rounded-3xl p-8 max-w-md w-full text-center z-10 space-y-6 transition-all duration-500">
+    <div class="relative inline-block">
+      <div class="w-20 h-20 bg-rose-500/20 rounded-full flex items-center justify-center mx-auto text-4xl animate-pulse text-rose-400">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <span class="absolute -top-1 -right-1 flex h-4 w-4">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-4 w-4 bg-rose-500"></span>
+      </span>
+    </div>
+    
+    <div>
+      <h1 class="text-2xl font-bold mb-2">مفاجأة خاصة جداً 💖</h1>
+      <p class="text-rose-200/80 text-sm">اكتبي كلمة السر لتفتحي الرسالة</p>
+    </div>
+
+    <div class="space-y-4">
+      <div class="relative">
+        <input type="password" id="pass-input" placeholder="اكتبي كلمة السر هنا..." 
+          class="w-full bg-black/30 border border-rose-500/30 rounded-2xl px-5 py-3 text-center text-rose-100 placeholder-rose-300/40 focus:outline-none focus:border-rose-500 transition-all text-lg">
+      </div>
+      <p id="error-msg" class="text-rose-400 text-xs hidden font-bold">كلمة السر مش صحيحة، جربي تاني! 😉</p>
+      <button onclick="checkPass()" class="w-full bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-rose-500/30 transition-all active:scale-95">
+        افتحي المفاجأة ✨
+      </button>
+    </div>
+    <p class="text-xs text-rose-300/50">تلميح: (i l... y..)</p>
+  </div>
+
+  <!-- الشاشة الثانية: السؤال (بتحبيني؟) -->
+  <div id="screen-question" class="glass rounded-3xl p-8 max-w-md w-full text-center z-10 space-y-8 hidden transition-all duration-500">
+    <div class="space-y-3">
+      <span class="text-5xl animate-bounce inline-block">🥹</span>
+      <h2 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-300 via-pink-200 to-rose-400">
+        بتحبيني؟
+      </h2>
+      <p id="sub-txt" class="text-rose-200/80 text-sm">جاوبي بصراحة من غير لف ودوران 🙈</p>
+    </div>
+
+    <div class="flex flex-col items-center justify-center gap-4 min-h-[160px] relative">
+      <button id="btn-yes" onclick="sayYes()" class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-black rounded-2xl shadow-xl shadow-emerald-500/30 transition-all duration-300 z-20 flex items-center justify-center gap-2" style="font-size: 1.25rem; padding: 0.75rem 2rem;">
+        <span>أيوة 💖</span>
+      </button>
+
+      <button id="btn-no" onclick="handleNo()" class="bg-rose-500/30 hover:bg-rose-500/40 text-rose-200 border border-rose-400/30 font-bold rounded-2xl transition-all duration-300 z-10" style="font-size: 1rem; padding: 0.5rem 1.5rem;">
+        لا 🙈
+      </button>
+    </div>
+  </div>
+
+  <!-- الشاشة الثالثة: الاحتفال ورابط الأغنية -->
+  <div id="screen-celebrate" class="glass rounded-3xl p-8 max-w-md w-full text-center z-10 space-y-6 hidden transition-all duration-500">
+    <div class="space-y-2">
+      <span class="text-6xl animate-pulse inline-block">🎉❤️</span>
+      <h2 class="text-3xl font-black text-rose-300">كنت عارف والله! 😍</h2>
+      <p class="text-rose-100/90 text-sm">أنا كمان بحبك جداً ومقدرش أستغنى عنك! ✨</p>
+    </div>
+
+    <!-- كارت رابط الأغنية المباشر -->
+    <div class="bg-black/40 border border-rose-500/30 rounded-2xl p-6 space-y-4 relative overflow-hidden">
+      <div class="flex items-center justify-center gap-3 text-rose-300">
+        <i class="fa-brands fa-youtube text-red-500 text-4xl animate-bounce"></i>
+        <div class="text-right">
+          <h3 class="font-bold text-rose-100 text-base">لو ناسياني - Lege-Cy</h3>
+          <p class="text-xs text-rose-300/80">"لو ناسياني ما يضرش..." 🎶</p>
+        </div>
+      </div>
+
+      <!-- زر الانتقال لأغنية يوتيوب -->
+      <a href="https://www.youtube.com/watch?v=VrtnKJ6XGX4" target="_blank" rel="noopener noreferrer" 
+         class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg shadow-red-600/30 transition-all active:scale-95 text-sm">
+        <span>اسمعي الأغنية على يوتيوب</span>
+        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+      </a>
+    </div>
+
+    <div class="pt-2 text-xs text-rose-300/60">
+      صُنِع بحب كبيييير جداً عشأنك ❤️
+    </div>
+  </div>
+
+  <script>
+    // 1. إنشاء القلوب المتناثرة
+    function createHearts() {
+      const container = document.getElementById('hearts-container');
+      const heartIcons = ['❤️', '💖', '💗', '💓', '💕'];
+      for (let i = 0; i < 25; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        heart.style.animationDelay = (Math.random() * 5) + 's';
+        heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+        container.appendChild(heart);
+      }
+    }
+    createHearts();
+
+    // 2. فحص كلمة السر
+    function checkPass() {
+      const input = document.getElementById('pass-input').value.trim().toLowerCase();
+      const card = document.getElementById('screen-pass');
+      const error = document.getElementById('error-msg');
+
+      if (input === 'i love you') {
+        card.classList.add('hidden');
+        document.getElementById('screen-question').classList.remove('hidden');
+      } else {
+        card.classList.add('shake');
+        error.classList.remove('hidden');
+        setTimeout(() => card.classList.remove('shake'), 500);
+      }
+    }
+
+    document.getElementById('pass-input').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') checkPass();
+    });
+
+    // 3. تفاعل زري "لا" و "أيوة"
+    let noClickCount = 0;
+    const noTexts = [
+      "متأكدة؟ 🥺",
+      "فكري تاني طيب! 🤔",
+      "بلاش جفاء بقا! 💔",
+      "يا بنتي اعقلي! 😂",
+      "طب والعهد اللي بينا؟ 😭",
+      "خلاص مفيش زرار لا! 😈"
+    ];
+
+    let yesPaddingVert = 0.75;
+    let yesPaddingHoriz = 2;
+    let yesFontSize = 1.25;
+
+    let noPaddingVert = 0.5;
+    let noPaddingHoriz = 1.5;
+    let noFontSize = 1;
+
+    function handleNo() {
+      const btnYes = document.getElementById('btn-yes');
+      const btnNo = document.getElementById('btn-no');
+
+      noClickCount++;
+
+      // تكبير زر أيوة
+      yesPaddingVert += 0.4;
+      yesPaddingHoriz += 0.8;
+      yesFontSize += 0.35;
+      btnYes.style.padding = `${yesPaddingVert}rem ${yesPaddingHoriz}rem`;
+      btnYes.style.fontSize = `${yesFontSize}rem`;
+
+      // تصغير زر لا
+      noPaddingVert = Math.max(0.1, noPaddingVert - 0.08);
+      noPaddingHoriz = Math.max(0.3, noPaddingHoriz - 0.2);
+      noFontSize = Math.max(0.4, noFontSize - 0.12);
+      btnNo.style.padding = `${noPaddingVert}rem ${noPaddingHoriz}rem`;
+      btnNo.style.fontSize = `${noFontSize}rem`;
+
+      if (noClickCount <= noTexts.length) {
+        btnNo.innerText = noTexts[noClickCount - 1];
+      }
+
+      if (noClickCount >= 6) {
+        btnNo.style.display = 'none';
+        document.getElementById('sub-txt').innerText = "مفضلش غير زرار واحد، اضغطي عليه بقا! 😏✨";
+      }
+    }
+
+    // 4. عند الضغط على "أيوة"
+    function sayYes() {
+      document.getElementById('screen-question').classList.add('hidden');
+      document.getElementById('screen-celebrate').classList.remove('hidden');
+
+      // إطلاق احتفال القلوب والكونفيتي
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+  </script>
+</body>
+</html>
