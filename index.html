@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سؤال مهم جداً ❤️</title>
+    <title>سؤال مهم ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * {
@@ -11,268 +11,230 @@
             margin: 0;
             padding: 0;
             font-family: 'Cairo', sans-serif;
-            user-select: none;
         }
 
         body {
-            background: radial-gradient(circle at top left, #0f172a, #020617);
+            background: #020617;
+            background-image: radial-gradient(circle at top left, #0f172a, #020617);
             color: #f8fafc;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-        }
-
-        /* تأثير الإضاءة في الخلفية */
-        .glow {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: rgba(56, 189, 248, 0.15);
-            filter: blur(100px);
-            border-radius: 50%;
-            z-index: 0;
         }
 
         .card {
-            background: rgba(30, 41, 59, 0.45);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #0f172a;
+            border: 1px solid rgba(56, 189, 248, 0.25);
             border-radius: 24px;
-            padding: 40px 30px;
+            padding: 32px 24px;
             width: 90%;
-            max-width: 420px;
+            max-width: 400px;
             text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            position: relative;
             z-index: 10;
-            transition: all 0.4s ease;
         }
 
         .emoji-header {
-            font-size: 64px;
-            margin-bottom: 15px;
-            animation: pulse 2s infinite;
+            font-size: 54px;
+            margin-bottom: 10px;
         }
 
         h1 {
-            font-size: 26px;
+            font-size: 23px;
             font-weight: 900;
-            margin-bottom: 12px;
-            background: linear-gradient(to right, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            color: #38bdf8;
         }
 
         p {
-            font-size: 16px;
+            font-size: 15px;
             color: #cbd5e1;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             line-height: 1.6;
         }
 
-        .buttons-container {
+        .playground {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            background: #020617;
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 18px;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
-            min-height: 60px;
+            gap: 20px;
+            overflow: hidden;
         }
 
         button {
-            padding: 12px 28px;
-            font-size: 18px;
+            padding: 11px 26px;
+            font-size: 17px;
             font-weight: 700;
             border: none;
-            border-radius: 14px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: transform 0.2s ease, background 0.3s ease;
         }
 
         #yesBtn {
-            background: linear-gradient(135deg, #0284c7, #3b82f6);
+            background: #2563eb;
             color: white;
-            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.5);
-            z-index: 20;
-        }
-
-        #yesBtn:hover {
-            transform: scale(1.05);
+            z-index: 10;
+            transition: transform 0.2s ease;
         }
 
         #noBtn {
-            background: rgba(255, 255, 255, 0.08);
-            color: #94a3b8;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            z-index: 15;
-            transition: all 0.15s ease-out;
+            background: #1e293b;
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 20;
+            transition: left 0.12s ease-out, top 0.12s ease-out;
+            white-space: nowrap;
         }
 
-        /* شاشة النهاية بعد الموافقة */
         .success-screen {
             display: none;
-            animation: fadeIn 0.8s ease forwards;
         }
 
-        .music-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(56, 189, 248, 0.15);
+        .song-box {
+            background: #020617;
             border: 1px solid rgba(56, 189, 248, 0.3);
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 14px;
-            color: #7dd3fc;
-            margin-top: 20px;
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 12px;
         }
 
-        /* القلوب الطايرة */
+        .song-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #7dd3fc;
+            margin-bottom: 12px;
+        }
+
+        .yt-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 11px 22px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+        }
+
         .heart {
             position: fixed;
-            bottom: -10vh;
+            bottom: -50px;
             font-size: 24px;
             animation: floatUp 4s linear forwards;
             z-index: 5;
             pointer-events: none;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-115vh) rotate(360deg); opacity: 0; }
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-110vh); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="glow" style="top: 10%; left: 10%;"></div>
-    <div class="glow" style="bottom: 10%; right: 10%; background: rgba(129, 140, 248, 0.15);"></div>
-
-    <!-- الشاشة الأولى: السؤال -->
     <div class="card" id="questionCard">
-        <div class="emoji-header">🥺✨</div>
-        <!-- عدل السؤال هنا براحتك -->
-        <h1>تقبلي نخرج سوا قريب؟</h1>
-        <p>فكري كويس قبل ما تختاري.. مع إن مفيش غير اختيار واحد أصلاً 😉</p>
+        <div class="emoji-header">🥺💙</div>
+        <h1>إنتي بتحبيني زي ما أنا بحبك؟</h1>
+        <p>جاوبي بصراحة.. مع إن مفيش غير إجابة واحدة 😉</p>
         
-        <div class="buttons-container">
-            <button id="yesBtn">أيوة طبعاً ❤️</button>
-            <button id="noBtn">لأ</button>
+        <div class="playground" id="playground">
+            <button type="button" id="yesBtn">آه ❤️</button>
+            <button type="button" id="noBtn">لأ</button>
         </div>
     </div>
 
-    <!-- الشاشة التانية: بعد ما تدوس أيوة -->
     <div class="card success-screen" id="successCard">
-        <div class="emoji-header">🥰💙</div>
-        <!-- عدل رسالة النهاية هنا -->
-        <h1>كنت عارف إنك هتوافقي!</h1>
-        <p>أحلى قرار في اليوم ده.. جهزي نفسك عشان هننبسط أوي ✨</p>
+        <div class="emoji-header">🥰✨</div>
+        <h1>وأنا بحبك أكتر بكتير 💙</h1>
+        <p>كنت متأكد إنك مش هتعرفي تدوسي لأ أصلاً</p>
         
-        <div class="music-badge">
-            <span>🎵</span>
-            <!-- اكتب اسم الأغنية هنا -->
-            <span>شغال دلوقتي: أغنيتنا المفضلة</span>
+        <div class="song-box">
+            <div class="song-title">🎵 TUL8TE - حبيبي ليه</div>
+            <!-- حط لينك الأغنية المباشر من يوتيوب مكان اللينك ده لو حابب -->
+            <a class="yt-btn" href="https://www.youtube.com/watch?v=MCbM1PwjA5Y">
+                اسمعي الأغنية على يوتيوب ▶
+            </a>
         </div>
     </div>
-
-    <!-- ملف الأغنية: حط ملف الأغنية في نفس الفولدر وسميه song.mp3 -->
-    <audio id="bgMusic" loop>
-        <source src="song.mp3" type="audio/mpeg">
-    </audio>
 
     <script>
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
+        const playground = document.getElementById('playground');
         const questionCard = document.getElementById('questionCard');
         const successCard = document.getElementById('successCard');
-        const bgMusic = document.getElementById('bgMusic');
 
         let yesScale = 1;
         let escapeCount = 0;
 
-        // الجمل اللي بتظهر على زرار لأ كل ما يهرب
         const noTexts = [
             "متأكدة؟ 🤔",
-            "جربي تاني 😂",
+            "حاولي تاني 😂",
             "مش هتلحقيني!",
-            "دوسي أيوة وخلاص",
-            "الزرار بايظ تقريباً",
+            "دوسي آه وخلاص",
             "مفيش مفر 💙"
         ];
 
-        function moveNoButton() {
+        function escapeInsideBox(e) {
+            if (e) e.preventDefault();
             escapeCount++;
-            
-            // تغيير الكلام على الزرار
-            if (escapeCount <= noTexts.length) {
-                noBtn.innerText = noTexts[escapeCount - 1];
-            } else {
-                noBtn.innerText = noTexts[Math.floor(Math.random() * noTexts.length)];
+
+            noBtn.innerText = noTexts[(escapeCount - 1) % noTexts.length];
+
+            if (yesScale < 1.35) {
+                yesScale += 0.08;
+                yesBtn.style.transform = `scale(${yesScale})`;
             }
 
-            // تكبير زرار أيوة تدريجياً
-            yesScale += 0.12;
-            yesBtn.style.transform = `scale(${yesScale})`;
+            const boxWidth = playground.clientWidth;
+            const boxHeight = playground.clientHeight;
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
 
-            // حساب مكان عشوائي جوا حدود الشاشة
-            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-            
-            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+            const maxX = Math.max(8, boxWidth - btnWidth - 8);
+            const maxY = Math.max(8, boxHeight - btnHeight - 8);
 
-            noBtn.style.position = 'fixed';
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            noBtn.style.position = 'absolute';
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
         }
 
-        // الهروب بالماوس (للكمبيوتر) وبالتاتش (للموبايل)
-        noBtn.addEventListener('mouseover', moveNoButton);
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // يمنع الضغط الفعلي على الموبايل
-            moveNoButton();
-        });
+        noBtn.addEventListener('mouseover', escapeInsideBox);
+        noBtn.addEventListener('touchstart', escapeInsideBox, { passive: false });
+        noBtn.addEventListener('click', escapeInsideBox);
 
-        // لما تدوس أيوة
         yesBtn.addEventListener('click', () => {
             questionCard.style.display = 'none';
             successCard.style.display = 'block';
-            
-            // تشغيل الأغنية
-            bgMusic.play().catch(err => console.log("المتصفح محتاج تفاعل لتشغيل الصوت:", err));
-
-            // إطلاق القلوب في الشاشة
             setInterval(createHeart, 250);
         });
 
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
-            const emojis = ['💙', '✨', '🤍', '💫', '🥰'];
+            const emojis = ['💙', '✨', '🤍', '🥰', '❤️'];
             heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             
-            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.left = Math.random() * 95 + 'vw';
             heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
-            heart.style.fontSize = (Math.random() * 15 + 20) + 'px';
             
             document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+            setTimeout(() => heart.remove(), 5000);
         }
     </script>
 </body>
